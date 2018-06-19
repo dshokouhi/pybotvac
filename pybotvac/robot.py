@@ -62,7 +62,7 @@ class Robot:
         # navigation_mode: 1 normal, 2 extra care, 3 deep
         # category: 2 non-persistent map, 4 persistent map
 
-        #Default to using the persistent map if we support basic-3.
+        #Default to using the persistent map if we support basic-3. Temporarily kept at 2 until we expose this to home assistant.  To use persistent map first make sure you create one from the Neato App.
         if category is None:
             category = 4 if self.service_version == 'basic-3' else 2
         
@@ -78,7 +78,7 @@ class Robot:
             json = {'reqId': "1",
                     'cmd': "startCleaning",
                     'params': {
-                        'category': category,
+                        'category': 2,
                         'mode': mode,
                         'modifier': 1,
                         "navigationMode": navigation_mode}
