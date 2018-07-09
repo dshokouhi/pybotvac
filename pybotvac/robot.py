@@ -102,6 +102,59 @@ class Robot:
         
         return self._message(json)
 
+    def custom_cleaning(self, mode: int, navigation_mode: int, category: int):
+        # mode & navigation_mode used if applicable to service version
+        # mode: 1 eco, 2 turbo
+        # navigation_mode: 1 normal, 2 extra care, 3 deep
+        # category: 2 non-persistent map, 4 persistent map
+
+        #Default to not using a persistent map if category is not set as cleaning may not start if map was not created, let the user decide when to use this feature
+
+        if mode is None:
+            mode = 2
+
+        if navigation_mode is None:
+            navigation_mode = 1
+
+        if category is None:
+            category = 2
+        
+        if self.service_version == 'basic-1':
+            json = {'reqId': "1",
+                    'cmd': "startCleaning",
+                    'params': {
+                        'category': 2,
+                        'mode': mode,
+                        'modifier': 1}
+                    }
+        elif self.service_version == 'basic-3':
+            json = {'reqId': "1",
+                    'cmd': "startCleaning",
+                    'params': {
+                        'category': category,
+                        'mode': mode,
+                        'modifier': 1,
+                        "navigationMode": navigation_mode}
+                    }
+        elif self.service_version == 'minimal-2':
+            json = {'reqId': "1",
+                    'cmd': "startCleaning",
+                    'params': {
+                        'category': 2,
+                        "navigationMode": navigation_mode}
+                    }
+        else:   # self.service_version == 'basic-2'
+            json = {'reqId': "1",
+                    'cmd': "startCleaning",
+                    'params': {
+                        'category': 2,
+                        'mode': mode,
+                        'modifier': 1,
+                        "navigationMode": navigation_mode}
+                    }
+        
+        return self._message(json)
+
     def pause_cleaning(self):
         return self._message({'reqId': "1", 'cmd': "pauseCleaning"})
 
