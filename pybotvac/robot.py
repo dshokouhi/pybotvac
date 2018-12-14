@@ -147,6 +147,30 @@ class Robot:
 
         return self._message(json)
 
+    def zone_cleaning(self, mapId=None, boundaryId=None, boundaryName=None):
+        # Zone cleaning is only available for the D7 with basic-4
+        # mapId, boundaryId and boundaryName must be retrieved
+        # Use pybotvac to determine these numbers
+        # Start cleaning from the app to specific zones and grab the botvac state
+        
+        if self.service_version == 'basic-4':
+            json = {'reqId': "1",
+                    'cmd': "startCleaning",
+                    'params': {
+                        'category': 4,
+                        'mode': 2,
+                        'modifier': 1,
+                        'navigationMode': 1,
+                        'mapId': mapId,
+                        'boundary': {
+                            'id': boundaryId,
+                            'name': boundaryName}
+                        'spotWidth': spot_width,
+                        'spotHeight': spot_height}
+                    }
+        else:
+            raise UnsupportedDevice("Version " + self.service_version + " of service houseCleaning is not supported for zone cleaning.")
+            
     def pause_cleaning(self):
         return self._message({'reqId': "1", 'cmd': "pauseCleaning"})
 
