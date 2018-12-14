@@ -165,8 +165,7 @@ class Robot:
                         'boundary': {
                             'id': boundaryId,
                             'name': boundaryName}
-                        'spotWidth': spot_width,
-                        'spotHeight': spot_height}
+                        }
                     }
         else:
             raise UnsupportedDevice("Version " + self.service_version + " of service houseCleaning is not supported for zone cleaning.")
