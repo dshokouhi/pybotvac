@@ -167,6 +167,8 @@ class Robot:
                             'name': boundaryName}
                         }
                     }
+            
+            return self._message(json)
         else:
             raise UnsupportedDevice("Version " + self.service_version + " of service houseCleaning is not supported for zone cleaning.")
             
